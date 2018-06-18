@@ -27,7 +27,6 @@ import org.springframework.context.support.BeanDefinitionDsl.Autowire
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.context.support.registerBean
-import java.lang.management.ManagementFactory
 import java.time.Duration
 import java.util.function.Supplier
 import kotlin.system.measureTimeMillis
@@ -176,9 +175,7 @@ open class ApplicationDsl(private val init: ApplicationDsl.() -> Unit) : Abstrac
 			context.refresh()
 		}
 		val startupTimeDuration = Duration.ofMillis(startupTime)
-		fuLogger.info("Application started in " +
-				"${startupTimeDuration.seconds}.${startupTimeDuration.minusSeconds(startupTimeDuration.seconds).toMillis()} seconds " +
-				"(JVM running for ${ManagementFactory.getRuntimeMXBean().uptime / 1000.0})")
+		fuLogger.info("Application started in ${startupTimeDuration.toMillis()} milliseconds")
 
 		if (await) {
 			while (true)
